@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-*i^)-m667i7fh^9m2q(gy*yuct61i2#9@-^h&qpl@c42d)7+_+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True   
 
-ALLOWED_HOSTS = ['0.0.0.0', 'localhost', 'code-demo-82rc.onrender.com']
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost', 'code-demo-82rc.onrender.com','127.0.0.1']
 
 
 # Application definition
@@ -106,11 +106,16 @@ CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [("redis://default:AUTrAAIjcDE1ZGI3YmY3ZGI5NzI0MzlkYjFhMjU2YzRhMjViZmYyNXAxMA@pleased-grizzly-17643.upstash.io:6379")],
+            "hosts": [("rediss://:AUTrAAIjcDE1ZGI3YmY3ZGI5NzI0MzlkYjFhMjU2YzRhMjViZmYyNXAxMA@pleased-grizzly-17643.upstash.io:6379")],
         },
     },
 }
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://code-demo-82rc.onrender.com',  # Add your Render domain here
+    'http://code-demo-82rc.onrender.com',   # Add both http and https versions if necessary
+]
+CSRF_COOKIE_SECURE = True 
 
 ROOT_URLCONF = 'lobby.urls'
 
@@ -186,3 +191,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 LOGIN_REDIRECT_URL='afterlogin'
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_REDIRECT_URI = 'http://code-demo-82rc.onrender.com/accounts/google/login/callback/'

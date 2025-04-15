@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Lobby</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background-color: #12141d;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 480px;
+            padding: 40px;
+            background-color: #1a1c28;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        
+        h2 {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 30px;
+            color: #6fe0f2;
+        }
+        
+        .welcome-text {
+            margin-bottom: 30px;
+            color: #a8b1c2;
+            font-size: 16px;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 15px;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-create {
+            background: linear-gradient(to right, #a17afd, #ef7bea);
+            color: white;
+        }
+        
+        .btn-join {
+            background-color: #23253a;
+            color: white;
+            border: 1px solid #3a3e5a;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn-create:hover {
+            opacity: 0.9;
+        }
+        
+        .btn-join:hover {
+            background-color: #2b2e47;
+        }
+        
+        .footer {
+            margin-top: 40px;
+            font-size: 14px;
+            color: #6c757d;
+        }
+        
+        .footer a {
+            color: #6fe0f2;
+            text-decoration: none;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+        
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #6fe0f2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .username {
+            font-weight: 500;
+        }
+        
+        .logout {
+            margin-left: 15px;
+            color: #6c757d;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        
+        .logout:hover {
+            color: #ef7bea;
+            text-decoration: underline;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 999;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: #1a1c28;
+            border-radius: 12px;
+            padding: 30px;
+            width: 90%;
+            max-width: 400px;
+        }
+        
+        .modal-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #6fe0f2;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        input {
+            width: 100%;
+            padding: 14px;
+            border-radius: 6px;
+            border: none;
+            background-color: #23253a;
+            color: #ffffff;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        
+        input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px #6fe0f2;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        .btn-cancel {
+            background-color: transparent;
+            border: 1px solid #6c757d;
+            color: #6c757d;
+            width: 48%;
+        }
+        
+        .btn-confirm {
+            background: linear-gradient(to right, #a17afd, #ef7bea);
+            width: 48%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="user-info">
+            <div class="avatar">U</div>
+            <span class="username">Username</span>
+            <a href="#" class="logout">Logout</a>
+        </div>
+        
+        <h2>Game Lobby</h2>
+        
+        <p class="welcome-text">Welcome to the game lobby! Create a new game room or join an existing one.</p>
+        
+        <button class="btn btn-create" onclick="openCreateModal()">Create Lobby</button>
+        <button class="btn btn-join" onclick="openJoinModal()">Join Lobby</button>
+        
+        <div class="footer">
+            <p>Need help? <a href="#">View tutorial</a> or <a href="#">contact support</a></p>
+        </div>
+    </div>
+    
+    <!-- Create Lobby Modal -->
+    <div id="createModal" class="modal">
+        <div class="modal-content">
+            <h3 class="modal-title">Create New Lobby</h3>
+            
+            <form id="createLobbyForm" action="/create-lobby" method="POST">
+                <div class="form-group">
+                    <label for="lobbyName">Lobby Name</label>
+                    <input type="text" id="lobbyName" name="lobbyName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="maxPlayers">Max Players</label>
+                    <input type="number" id="maxPlayers" name="maxPlayers" min="2" max="10" value="4" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="isPrivate">Privacy</label>
+                    <select id="isPrivate" name="isPrivate" style="width: 100%; padding: 14px; border-radius: 6px; border: none; background-color: #23253a; color: #ffffff; font-size: 16px;">
+                        <option value="false">Public (Anyone can join)</option>
+                        <option value="true">Private (Join with code)</option>
+                    </select>
+                </div>
+                
+                <div class="modal-buttons">
+                    <button type="button" class="btn btn-cancel" onclick="closeModal('createModal')">Cancel</button>
+                    <button type="submit" class="btn btn-confirm">Create</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Join Lobby Modal -->
+    <div id="joinModal" class="modal">
+        <div class="modal-content">
+            <h3 class="modal-title">Join a Lobby</h3>
+            
+            <form id="joinLobbyForm" action="/join-lobby" method="POST">
+                <div class="form-group">
+                    <label for="lobbyCode">Enter Lobby Code</label>
+                    <input type="text" id="lobbyCode" name="lobbyCode" placeholder="e.g. XYZ123" required>
+                </div>
+                
+                <div class="modal-buttons">
+                    <button type="button" class="btn btn-cancel" onclick="closeModal('joinModal')">Cancel</button>
+                    <button type="submit" class="btn btn-confirm">Join</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        function openCreateModal() {
+            document.getElementById('createModal').style.display = 'flex';
+        }
+        
+        function openJoinModal() {
+            document.getElementById('joinModal').style.display = 'flex';
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+        
+        // Close modals if clicked outside
+        window.onclick = function(event) {
+            const createModal = document.getElementById('createModal');
+            const joinModal = document.getElementById('joinModal');
+            
+            if (event.target === createModal) {
+                createModal.style.display = 'none';
+            }
+            
+            if (event.target === joinModal) {
+                joinModal.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

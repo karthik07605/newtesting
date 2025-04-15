@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Lobby {{ lobby.code }}</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
+
+  <!-- Language modes -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/python/python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/clike/clike.min.js"></script>
+
+  <style>
+    .CodeMirror {
+      height: 300px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Lobby Code: {{ lobby.code }}</h1>
+  <p><strong>Host:</strong> {{ lobby.host_name }}</p>
+
+  <h3>Code Editor:</h3>
+  <form method="post" action="{% url 'run_code' %}">
+    {% csrf_token %}
+    <label for="language">Select Language:</label>
+    <select name="language" id="language" onchange="changeMode()">
+      <option value="python" {% if lang == 'python' %}selected{% endif %}>Python</option>
+      <option value="c" {% if lang == 'c' %}selected{% endif %}>C</option>
+      <option value="cpp" {% if lang == 'cpp' %}selected{% endif %}>C++</option>
+      <option value="java" {% if lang == 'java' %}selected{% endif %}>Java</option>
+    </select>
+
+    <br><br>
+    <textarea id="code" name="code">{{ code|default:"" }}</textarea>
+    <br>
+    <button type="submit">Run Code</button>
+  </form>
+
+  {% if output %}
+    <h3>Output:</h3>
+    <pre>{{ output }}</pre>
+  {% endif %}
+
+  <script>
+    const lang = "{{ lang|default:'python' }}";
+    const modes = {
+      python: 'python',
+      c: 'text/x-csrc',
+      cpp: 'text/x-c++src',
+      java: 'text/x-java'
+    };
+
+    let editor = CodeMirror.fromTextArea(document.getElementById('code'), {
+      lineNumbers: true,
+      mode: modes[lang] || 'python',
+      theme: 'default'
+    });
+
+    function changeMode() {
+      const langSelect = document.getElementById('language');
+      const selectedLang = langSelect.value;
+      const mode = modes[selectedLang] || 'python';
+      editor.setOption('mode', mode);
+    }
+
+    // Update textarea before submitting form
+    document.querySelector("form").addEventListener("submit", function () {
+      document.getElementById("code").value = editor.getValue();
+    });
+  </script>
+</body>
+</html>  

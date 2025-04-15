@@ -1,0 +1,209 @@
+{% load socialaccount %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        html, body {
+            height: 100%;
+            background-color: #0a0a14;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .page-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .card {
+            background-color: rgba(30, 30, 50, 0.7);
+            border-radius: 15px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            padding: 40px;
+            margin: 0 auto;
+        }
+        
+        .card-title {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 32px;
+            font-weight: 600;
+            background: linear-gradient(to right, #a9e4ef, #46d8eb, #7d4dbb);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .form-label {
+            color: #bbb;
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+        
+        .form-input {
+            background-color: rgba(20, 20, 40, 0.5);
+            border: 1px solid #3a3a5a;
+            color: #fff;
+            padding: 12px 15px;
+            border-radius: 8px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        
+        .form-input:focus {
+            background-color: rgba(30, 30, 60, 0.5);
+            border-color: #8a5cf6;
+            color: #fff;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(138, 92, 246, 0.25);
+        }
+        
+        .login-btn {
+            background: linear-gradient(to right, #8a5cf6, #e95599);
+            border: none;
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            width: 100%;
+            font-weight: 500;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        
+        .login-btn:hover {
+            opacity: 0.9;
+        }
+        
+        .divider {
+            display: flex;
+            align-items: center;
+            color: #8a8a9a;
+            margin: 25px 0;
+        }
+        
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #3a3a5a;
+        }
+        
+        .divider::before {
+            margin-right: 15px;
+        }
+        
+        .divider::after {
+            margin-left: 15px;
+        }
+        
+        .social-buttons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .social-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px;
+            border-radius: 8px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .google-btn {
+            background-color: #DB4437;
+        }
+        
+        .google-btn:hover {
+            background-color: #c53929;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .github-btn {
+            background-color: #333;
+        }
+        
+        .github-btn:hover {
+            background-color: #222;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .register-text {
+            color: #bbb;
+            text-align: center;
+            margin-top: 5px;
+        }
+        
+        .register-link {
+            color: #8a5cf6;
+            text-decoration: none;
+        }
+        
+        .register-link:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 576px) {
+            .card {
+                padding: 30px 20px;
+            }
+            
+            .social-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="card">
+            <h2 class="card-title">Welcome Back</h2>
+            
+            <form method="POST">
+                {% csrf_token %}
+                <label class="form-label" for="username">Username</label>
+                <input class="form-input" type="text" name="username" id="username" required>
+                
+                <label class="form-label" for="password">Password</label>
+                <input class="form-input" type="password" name="password" id="password" required>
+                
+                <button class="login-btn" type="submit">Login</button>
+            </form>
+            
+            <div class="divider">or continue with</div>
+            
+            <div class="social-buttons">
+                <a href="{% provider_login_url 'google' %}" class="social-btn google-btn">
+                    <i class="fab fa-google"></i>
+                    <span>Google</span>
+                </a>
+                <a href="{% provider_login_url 'github' %}" class="social-btn github-btn">
+                    <i class="fab fa-github"></i>
+                    <span>GitHub</span>
+                </a>
+            </div>
+            
+            <p class="register-text">
+                Don't have an account? <a href="{% url 'register' %}" class="register-link">Register here</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

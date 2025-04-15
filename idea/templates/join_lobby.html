@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Join Lobby</title>
+  <style>
+    body {
+      background-color: #0a0a14;
+      color: white;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      padding: 0 20px;
+    }
+    
+    .container {
+      max-width: 600px;
+      width: 100%;
+      text-align: center;
+    }
+    
+    h1 {
+      font-size: 48px;
+      margin-bottom: 20px;
+      background: linear-gradient(to right, #a9e4ef, #46d8eb, #7d4dbb);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    p {
+      color: #c0c0c0;
+      margin-bottom: 40px;
+      font-size: 18px;
+      line-height: 1.5;
+    }
+    
+    form {
+      text-align: left;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #c0c0c0;
+      font-size: 16px;
+    }
+    
+    input {
+      width: 100%;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      border: 1px solid #3a3a5a;
+      background-color: rgba(20, 20, 40, 0.5);
+      color: white;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+    
+    button {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(to right, #8a5cf6, #e95599);
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: opacity 0.2s;
+      margin-top: 10px;
+    }
+    
+    button:hover {
+      opacity: 0.9;
+    }
+    
+    .link {
+      display: inline-block;
+      margin-top: 20px;
+      color: #8a5cf6;
+      text-decoration: none;
+    }
+    
+    .link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Join a Lobby</h1>
+    <p>Enter your name and the lobby code to join an existing session.</p>
+    
+    <form method="post">
+      {% csrf_token %}
+      <label>Your Name:</label>
+      <input type="text" name="name" required>
+      
+      <label>Lobby Code:</label>
+      <input type="text" name="code" required>
+      
+      <button type="submit">Join Lobby</button>
+    </form>
+    
+    <a href="{% url 'create_lobby' %}" class="link">Create a Lobby</a>
+  </div>
+</body>
+</html>

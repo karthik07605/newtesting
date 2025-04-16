@@ -87,12 +87,30 @@
     .link:hover {
       text-decoration: underline;
     }
+    
+    .messages {
+      margin-bottom: 20px;
+    }
+    
+    .error-message {
+      color: #ff5555;
+      font-size: 16px;
+      margin: 10px 0;
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Join a Lobby</h1>
     <p>Enter your name and the lobby code to join an existing session.</p>
+    
+    {% if messages %}
+      <div class="messages">
+        {% for message in messages %}
+          <div class="error-message">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
     
     <form method="post">
       {% csrf_token %}

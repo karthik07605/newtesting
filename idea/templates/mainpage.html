@@ -1,301 +1,862 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Lobby</title>
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            background-color: #12141d;
-            color: #ffffff;
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .container {
-            width: 100%;
-            max-width: 480px;
-            padding: 40px;
-            background-color: #1a1c28;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            text-align: center;
-        }
-        
-        h2 {
-            font-size: 32px;
-            font-weight: 600;
-            margin-bottom: 30px;
-            color: #6fe0f2;
-        }
-        
-        .welcome-text {
-            margin-bottom: 30px;
-            color: #a8b1c2;
-            font-size: 16px;
-        }
-        
-        .btn {
-            width: 100%;
-            padding: 16px;
-            border: none;
-            border-radius: 6px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-bottom: 15px;
-            transition: all 0.2s ease;
-        }
-        
-        .btn-create {
-            background: linear-gradient(to right, #a17afd, #ef7bea);
-            color: white;
-        }
-        
-        .btn-join {
-            background-color: #23253a;
-            color: white;
-            border: 1px solid #3a3e5a;
-        }
-        
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-        
-        .btn-create:hover {
-            opacity: 0.9;
-        }
-        
-        .btn-join:hover {
-            background-color: #2b2e47;
-        }
-        
-        .footer {
-            margin-top: 40px;
-            font-size: 14px;
-            color: #6c757d;
-        }
-        
-        .footer a {
-            color: #6fe0f2;
-            text-decoration: none;
-        }
-        
-        .footer a:hover {
-            text-decoration: underline;
-        }
-        
-        .user-info {
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            margin-bottom: 20px;
-        }
-        
-        .avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: #6fe0f2;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            margin-right: 10px;
-        }
-        
-        .username {
-            font-weight: 500;
-        }
-        
-        .logout {
-            margin-left: 15px;
-            color: #6c757d;
-            text-decoration: none;
-            font-size: 14px;
-        }
-        
-        .logout:hover {
-            color: #ef7bea;
-            text-decoration: underline;
-        }
-        
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: 999;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .modal-content {
-            background-color: #1a1c28;
-            border-radius: 12px;
-            padding: 30px;
-            width: 90%;
-            max-width: 400px;
-        }
-        
-        .modal-title {
-            font-size: 24px;
-            margin-bottom: 20px;
-            color: #6fe0f2;
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-            text-align: left;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-        
-        input {
-            width: 100%;
-            padding: 14px;
-            border-radius: 6px;
-            border: none;
-            background-color: #23253a;
-            color: #ffffff;
-            font-size: 16px;
-            box-sizing: border-box;
-        }
-        
-        input:focus {
-            outline: none;
-            box-shadow: 0 0 0 2px #6fe0f2;
-        }
-        
-        .modal-buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 30px;
-        }
-        
-        .btn-cancel {
-            background-color: transparent;
-            border: 1px solid #6c757d;
-            color: #6c757d;
-            width: 48%;
-        }
-        
-        .btn-confirm {
-            background: linear-gradient(to right, #a17afd, #ef7bea);
-            width: 48%;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Code Space - Real-Time Coding Universe</title>
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    body {
+      margin: 0;
+      padding: 0;
+      background: #0f0f0f;
+      font-family: 'Courier New', Courier, monospace;
+      color: #fff;
+      transition: background 0.5s, color 0.5s;
+    }
+
+    .light {
+      background: #f4f4f4;
+      color: #222;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 1rem 2rem;
+      background: rgba(15, 15, 15, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+      transition: background 0.5s;
+    }
+
+    .light header {
+      background: rgba(244, 244, 244, 0.8);
+    }
+
+    .header-content {
+      width: 100%;
+      max-width: 1200px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      background: linear-gradient(to right, #00ffff, #ff00ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-decoration: none;
+    }
+
+    .typing-dots {
+      display: flex;
+      gap: 3px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: #00ffff;
+    }
+
+    .dot:nth-child(1) {
+      animation: typing 1.5s infinite 0s;
+    }
+
+    .dot:nth-child(2) {
+      animation: typing 1.5s infinite 0.5s;
+    }
+
+    .dot:nth-child(3) {
+      animation: typing 1.5s infinite 1s;
+    }
+
+    @keyframes typing {
+      0%, 100% {
+        transform: translateY(0);
+        background-color: #00ffff;
+      }
+      50% {
+        transform: translateY(-5px);
+        background-color: #ff00ff;
+      }
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .light nav a {
+      color: #222;
+    }
+
+    nav a:hover {
+      color: #00ffff;
+    }
+
+    .hero {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 0 1rem;
+      position: relative;
+      z-index: 10;
+    }
+
+    h1 {
+      font-size: 4rem;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(to right, #00ffff, #ff00ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+    }
+
+    .enter-btn {
+      padding: 0.8rem 2rem;
+      font-size: 1rem;
+      background-color: #00ffff;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      color: #000;
+      text-decoration: none;
+      transition: background 0.3s;
+    }
+
+    .enter-btn:hover {
+      background-color: #00cccc;
+    }
+
+    .code-editor {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 60px;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 1rem;
+      border-radius: 10px;
+      backdrop-filter: blur(5px);
+      font-size: 0.9rem;
+      color: #0f0;
+      width: auto;
+      max-width: 90%;
+    }
+
+    .keyword {
+      color: #00ffff;
+    }
+
+    .string {
+      color: #ff00ff;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 10px;
+      height: 1rem;
+      background: #0f0;
+      animation: blink 1s infinite;
+      vertical-align: bottom;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    .avatars {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      gap: 10px;
+      z-index: 10;
+    }
+
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(45deg, #ff00ff, #00ffff);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      50% {
+        transform: scale(1.1);
+        opacity: 0.7;
+      }
+    }
+
+    .floaters {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .floater {
+      position: absolute;
+      color: #888;
+      font-size: 0.8rem;
+      animation: float 10s linear infinite;
+    }
+
+    @keyframes float {
+      from {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(-10vh) rotate(360deg);
+        opacity: 1;
+      }
+    }
+
+    .floater:nth-child(1) {
+      left: 10%;
+      animation-delay: 0s;
+    }
+
+    .floater:nth-child(2) {
+      left: 30%;
+      animation-delay: 2s;
+    }
+
+    .floater:nth-child(3) {
+      left: 60%;
+      animation-delay: 4s;
+    }
+
+    .floater:nth-child(4) {
+      left: 80%;
+      animation-delay: 6s;
+    }
+
+    .theme-toggle {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .theme-toggle input {
+      display: none;
+    }
+
+    .theme-toggle label {
+      cursor: pointer;
+      font-size: 1.2rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+    }
+
+    .theme-toggle .icon {
+      display: none;
+    }
+
+    .theme-toggle input:checked ~ label .sun {
+      display: none;
+    }
+
+    .theme-toggle input:checked ~ label .moon {
+      display: inline;
+    }
+
+    .theme-toggle input:not(:checked) ~ label .sun {
+      display: inline;
+    }
+
+    .theme-toggle input:not(:checked) ~ label .moon {
+      display: none;
+    }
+
+    .light .code-editor {
+      color: #000;
+      background: rgba(0, 0, 0, 0.05);
+    }
+
+    .light .cursor {
+      background: #000;
+    }
+
+    .light .enter-btn {
+      color: #fff;
+      background: #333;
+    }
+
+    .light .enter-btn:hover {
+      background: #111;
+    }
+
+    /* About Us Section */
+    .about {
+      padding: 6rem 2rem 3rem;
+      text-align: center;
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      margin-bottom: 3rem;
+      background: linear-gradient(to right, #00ffff, #ff00ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .team {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .team-member {
+      width: 280px;
+      text-align: center;
+      transition: transform 0.3s;
+      cursor: pointer;
+    }
+
+    .team-member:hover {
+      transform: translateY(-10px);
+    }
+
+    .team-member-img {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin: 0 auto 1rem;
+      position: relative;
+    }
+
+    .team-member-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+
+    .team-member:hover img {
+      transform: scale(1.1);
+    }
+
+    .team-member-img::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, rgba(0, 255, 255, 0.5), rgba(255, 0, 255, 0.5));
+      opacity: 0;
+      transition: opacity 0.3s;
+      border-radius: 50%;
+    }
+
+    .team-member:hover .team-member-img::before {
+      opacity: 0.6;
+    }
+
+    .team-member h3 {
+      margin-bottom: 0.5rem;
+      font-size: 1.5rem;
+    }
+
+    .team-member p {
+      color: #aaa;
+      margin-bottom: 1rem;
+    }
+
+    .light .team-member p {
+      color: #666;
+    }
+
+    .team-member-social {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 0.5rem;
+    }
+
+    .team-social-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: transform 0.3s, background 0.3s;
+    }
+
+    .team-social-icon img {
+      width: 20px;
+      height: 20px;
+    }
+
+    .team-social-icon:hover {
+      transform: translateY(-5px);
+      background: #00ffff;
+    }
+
+    .light .team-social-icon {
+      background: rgba(0, 0, 0, 0.1);
+    }
+
+    .light .team-social-icon:hover {
+      background: #333;
+    }
+
+    /* Contact Section */
+    .contact {
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+
+    .contact-form {
+      max-width: 500px;
+      margin: 0 auto 3rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+      text-align: left;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: #00ffff;
+    }
+
+    .light label {
+      color: #008B8B;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 0.8rem;
+      border: none;
+      border-radius: 5px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      font-family: inherit;
+    }
+
+    .light input, .light textarea {
+      background: rgba(0, 0, 0, 0.1);
+      color: #222;
+    }
+
+    textarea {
+      height: 150px;
+      resize: vertical;
+    }
+
+    .submit-btn {
+      padding: 0.8rem 2rem;
+      font-size: 1rem;
+      background-color: #00ffff;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      color: #000;
+      transition: background 0.3s;
+    }
+
+    .submit-btn:hover {
+      background-color: #00cccc;
+    }
+
+    .light .submit-btn {
+      color: #fff;
+      background: #333;
+    }
+
+    .light .submit-btn:hover {
+      background: #111;
+    }
+
+    /* Social Media */
+    .social-media {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .social-icon {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      text-decoration: none;
+      transition: transform 0.3s, background 0.3s;
+      font-size: 0.8rem;
+      font-weight: bold;
+    }
+
+    .social-icon:hover {
+      transform: translateY(-5px);
+      background: #00ffff;
+      color: #000;
+    }
+
+    .light .social-icon {
+      background: rgba(0, 0, 0, 0.1);
+      color: #222;
+    }
+
+    .light .social-icon:hover {
+      background: #333;
+      color: #fff;
+    }
+
+    /* Footer */
+    footer {
+      padding: 2rem;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .light footer {
+      color: #888;
+    }
+
+    /* Notification */
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #00ffff;
+      color: #000;
+      padding: 1rem;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: opacity 0.3s, transform 0.3s;
+      z-index: 1000;
+    }
+
+    .notification.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .light .notification {
+      background: #333;
+      color: #fff;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="user-info">
-            <div class="avatar">U</div>
-            <span class="username">Username</span>
-            <a href="#" class="logout">Logout</a>
-        </div>
-        
-        <h2>Game Lobby</h2>
-        
-        <p class="welcome-text">Welcome to the game lobby! Create a new game room or join an existing one.</p>
-        
-        <button class="btn btn-create" onclick="openCreateModal()">Create Lobby</button>
-        <button class="btn btn-join" onclick="openJoinModal()">Join Lobby</button>
-        
-        <div class="footer">
-            <p>Need help? <a href="#">View tutorial</a> or <a href="#">contact support</a></p>
-        </div>
+  <header>
+    <div class="header-content">
+      <div class="theme-toggle">
+        <input type="checkbox" id="theme-toggle">
+        <label for="theme-toggle">
+          <span class="icon sun">☀</span>
+          <span class="icon moon">🌙</span>
+        </label>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#hero">Home</a></li>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="logo-container">
+        <a href="#" class="logo">Code Space</a>
+      </div>
+      <div style="width: 100px;"></div>
     </div>
-    
-    <!-- Create Lobby Modal -->
-    <div id="createModal" class="modal">
-        <div class="modal-content">
-            <h3 class="modal-title">Create New Lobby</h3>
-            
-            <form id="createLobbyForm" action="/create-lobby" method="POST">
-                <div class="form-group">
-                    <label for="lobbyName">Lobby Name</label>
-                    <input type="text" id="lobbyName" name="lobbyName" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="maxPlayers">Max Players</label>
-                    <input type="number" id="maxPlayers" name="maxPlayers" min="2" max="10" value="4" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="isPrivate">Privacy</label>
-                    <select id="isPrivate" name="isPrivate" style="width: 100%; padding: 14px; border-radius: 6px; border: none; background-color: #23253a; color: #ffffff; font-size: 16px;">
-                        <option value="false">Public (Anyone can join)</option>
-                        <option value="true">Private (Join with code)</option>
-                    </select>
-                </div>
-                
-                <div class="modal-buttons">
-                    <button type="button" class="btn btn-cancel" onclick="closeModal('createModal')">Cancel</button>
-                    <button type="submit" class="btn btn-confirm">Create</button>
-                </div>
-            </form>
-        </div>
+  </header>
+
+  <div class="avatars">
+    <div class="avatar"></div>
+    <div class="avatar"></div>
+    <div class="avatar"></div>
+  </div>
+
+  <section id="hero" class="hero">
+    <h1>
+      Code Space
+      <div class="typing-dots">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+    </h1>
+    <p>Welcome to the Real-Time Coding Universe. Collaborate, Code, Conquer.</p>
+    <a href="{% url 'login' %}" class="enter-btn">Enter</a>
+
+    <div class="code-editor">
+      <pre>
+<span class="keyword">const</span> message = <span class="string">"Welcome to Code Space!"</span>;
+<span class="keyword">console</span>.log(message);<span class="cursor"></span>
+      </pre>
     </div>
-    
-    <!-- Join Lobby Modal -->
-    <div id="joinModal" class="modal">
-        <div class="modal-content">
-            <h3 class="modal-title">Join a Lobby</h3>
-            
-            <form id="joinLobbyForm" action="/join-lobby" method="POST">
-                <div class="form-group">
-                    <label for="lobbyCode">Enter Lobby Code</label>
-                    <input type="text" id="lobbyCode" name="lobbyCode" placeholder="e.g. XYZ123" required>
-                </div>
-                
-                <div class="modal-buttons">
-                    <button type="button" class="btn btn-cancel" onclick="closeModal('joinModal')">Cancel</button>
-                    <button type="submit" class="btn btn-confirm">Join</button>
-                </div>
-            </form>
-        </div>
+
+    <div class="floaters">
+      <div class="floater">let x = 10;</div>
+      <div class="floater">function greet() {}</div>
+      <div class="floater">const name = 'Coder';</div>
+      <div class="floater">return true;</div>
     </div>
-    
-    <script>
-        function openCreateModal() {
-            document.getElementById('createModal').style.display = 'flex';
+  </section>
+
+  <section id="about" class="about">
+    <h2 class="section-title">About Us</h2>
+    <div class="team">
+      <div class="team-member">
+        <div class="team-member-img">
+          <img src="https://monumental-buttercream-64daa9.netlify.app/1000080514.jpg" alt="Team Member 2">
+        </div>
+        <h3>KARTHIK K</h3>
+        <p>Web Developer</p>
+        <p>Skilled in crafting intuitive and visually appealing web applications</p>
+        <div class="team-member-social">
+          <a href="https://www.linkedin.com/in/karthik-k-5443a0254/" target="_blank" class="team-social-icon">
+            <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="LinkedIn">
+          </a>
+          <a href="https://instagram.com" target="_blank" class="team-social-icon">
+            <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram">
+          </a>
+          <a href="https://wa.me/9849499433" target="_blank" class="team-social-icon">
+            <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp">
+          </a>  
+        </div>
+      </div>
+      <div class="team-member">
+        <div class="team-member-img">
+          <img src="https://monumental-buttercream-64daa9.netlify.app/thofiq.jpeg" alt="Team Member 1">
+        </div>
+        <h3>THOUFIQ PS</h3>
+        <p>Web Developer</p>
+        <p>Passionate about creating innovative solutions and exploring technologies.</p>
+        <div class="team-member-social">
+          <a href="https://in.linkedin.com/in/shaik-thoufiq-808018254" target="_blank" class="team-social-icon">
+            <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="LinkedIn">
+          </a>
+          <a href="https://github.com/Thoufiq26" target="_blank" class="team-social-icon">
+            <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="GitHub">
+          </a>
+          <a href="https://wa.me/9440733910" target="_blank" class="team-social-icon">
+            <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp">
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact">
+    <h2 class="section-title">Contact Us</h2>
+    <form class="contact-form" id="contactForm">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+      <div class="form-group">
+        <label for="subject">Subject</label>
+        <input type="text" id="subject" name="subject" required>
+      </div>
+      <div class="form-group">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" required></textarea>
+      </div>
+      <button type="submit" class="submit-btn">Send Message</button>
+    </form>
+  </section>
+
+  <footer>
+    <p>© 2025 Code Space. All Rights Reserved.</p>
+  </footer>
+
+  <div class="notification" id="notification">Message sent successfully!</div>
+
+  <script>
+    // Theme toggle functionality with localStorage
+    const toggle = document.getElementById('theme-toggle');
+    const body = document.body;
+
+    // Load saved theme from localStorage
+    if (localStorage.getItem('theme') === 'light') {
+      body.classList.add('light');
+      toggle.checked = true;
+    }
+
+    toggle.addEventListener('change', () => {
+      body.classList.toggle('light');
+      // Save theme preference
+      if (body.classList.contains('light')) {
+        localStorage.setItem('theme', 'light');
+      } else {
+        localStorage.setItem('theme', 'dark');
+      }
+    });
+
+    // Smooth scrolling for navigation links
+    document.querySelectorAll('nav a').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const sectionId = this.getAttribute('href').substring(1);
+        const section = document.getElementById(sectionId);
+        if (section) {
+          section.scrollIntoView({ behavior: 'smooth' });
         }
+      });
+    });
+
+    // Email sending functionality with proper notification and clipboard fallback
+    const contactForm = document.getElementById('contactForm');
+    const notification = document.getElementById('notification');
+
+    contactForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      // Get form data
+      const formData = new FormData(contactForm);
+      const name = formData.get('name');
+      const email = formData.get('email');
+      const subject = formData.get('subject');
+      const message = formData.get('message');
+
+      // Email validation
+      if (!validateEmail(email)) {
+        showNotification('Please enter a valid email address', 'error');
+        return;
+      }
+
+      // Construct email content
+      const emailBody = `Name: ${name}\nEmail: ${email}\n\n${message}`;
+      const mailtoLink = `mailto:your-email@example.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
+
+      try {
+        // Attempt to open the mailto link
+        const mailWindow = window.open(mailtoLink, '_blank');
         
-        function openJoinModal() {
-            document.getElementById('joinModal').style.display = 'flex';
-        }
-        
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-        }
-        
-        // Close modals if clicked outside
-        window.onclick = function(event) {
-            const createModal = document.getElementById('createModal');
-            const joinModal = document.getElementById('joinModal');
-            
-            if (event.target === createModal) {
-                createModal.style.display = 'none';
-            }
-            
-            if (event.target === joinModal) {
-                joinModal.style.display = 'none';
-            }
-        }
-    </script>
+        // Check if the mailto link opened successfully
+        setTimeout(() => {
+          if (!mailWindow || mailWindow.closed) {
+            // Fallback: Copy to clipboard
+            copyToClipboard(emailBody);
+            showNotification(
+              'Could not open email client. Message copied to clipboard. Please email it to your-email@example.com',
+              'copied'
+            );
+          } else {
+            showNotification('Email client opened successfully!');
+          }
+        }, 1000);
+
+        // Reset the form
+        contactForm.reset();
+      } catch (error) {
+        // Fallback for any errors
+        copyToClipboard(emailBody);
+        showNotification(
+          'Error opening email client. Message copied to clipboard. Please email it to your-email@example.com',
+          'copied'
+        );
+      }
+    });
+
+    function validateEmail(email) {
+      const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(String(email).toLowerCase());
+    }
+
+    function copyToClipboard(text) {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand('copy');
+      } catch (err) {
+        console.error('Failed to copy to clipboard:', err);
+      }
+      document.body.removeChild(textarea);
+    }
+
+    function showNotification(message, type = 'success') {
+      notification.textContent = message;
+      notification.classList.remove('show', 'copied', 'error');
+      notification.classList.add('show');
+      if (type === 'copied') {
+        notification.classList.add('copied');
+      } else if (type === 'error') {
+        notification.classList.add('error');
+      }
+
+      setTimeout(() => {
+        notification.classList.remove('show', 'copied', 'error');
+      }, 5000);
+    }
+
+
+  </script>
 </body>
 </html>
